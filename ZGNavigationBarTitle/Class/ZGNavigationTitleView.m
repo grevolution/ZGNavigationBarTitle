@@ -13,12 +13,11 @@
 @end
 
 @interface ZGNavigationTitleContentView : UIView
-@property (nonatomic, weak) id <ZGNavigationTitleContentViewDelegate> delegate;
+@property (nonatomic, weak) id<ZGNavigationTitleContentViewDelegate> delegate;
 @end
 
 @implementation ZGNavigationTitleContentView
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     if ([self.delegate respondsToSelector:@selector(drawContent:)]) {
         [self.delegate drawContent:rect];
     }
@@ -31,8 +30,7 @@
 
 @implementation ZGNavigationTitleView
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
+- (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self setupContentView];
@@ -40,8 +38,7 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self setupContentView];
@@ -49,8 +46,7 @@
     return self;
 }
 
-- (void)setupContentView
-{
+- (void)setupContentView {
     self.contentView = [[ZGNavigationTitleContentView alloc] initWithFrame:self.frame];
     self.contentView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.contentView.delegate = self;
@@ -60,16 +56,14 @@
     self.clipsToBounds = YES;
 }
 
-- (void)setNavigationBarTitle:(NSString *)navigationBarTitle
-{
+- (void)setNavigationBarTitle:(NSString *)navigationBarTitle {
     if (![_navigationBarTitle isEqualToString:navigationBarTitle]) {
         _navigationBarTitle = navigationBarTitle;
         [self.contentView setNeedsDisplay];
     }
 }
 
-- (void)setNavigationBarSubtitle:(NSString *)navigationBarSubtitle
-{
+- (void)setNavigationBarSubtitle:(NSString *)navigationBarSubtitle {
     if (![_navigationBarSubtitle isEqualToString:navigationBarSubtitle]) {
         if (navigationBarSubtitle.length && !_navigationBarSubtitle.length) {
             CATransition *transition = [CATransition animation];
@@ -77,16 +71,15 @@
             transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
             transition.type = kCATransitionPush;
             transition.subtype = kCATransitionFromTop;
-            [transition setValue:(id) kCFBooleanFalse forKey:kCATransitionFade];
+            [transition setValue:(id)kCFBooleanFalse forKey:kCATransitionFade];
             [self.contentView.layer addAnimation:transition forKey:nil];
-        }
-        else if (!navigationBarSubtitle.length && _navigationBarSubtitle.length) {
+        } else if (!navigationBarSubtitle.length && _navigationBarSubtitle.length) {
             CATransition *transition = [CATransition animation];
             transition.duration = 0.4f;
             transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
             transition.type = kCATransitionPush;
             transition.subtype = kCATransitionFromBottom;
-            [transition setValue:(id) kCFBooleanFalse forKey:kCATransitionFade];
+            [transition setValue:(id)kCFBooleanFalse forKey:kCATransitionFade];
             [self.contentView.layer addAnimation:transition forKey:nil];
         }
         _navigationBarSubtitle = navigationBarSubtitle;
@@ -96,40 +89,38 @@
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawContent:(CGRect)rect
-{
+- (void)drawContent:(CGRect)rect {
     // Default paragraph style
-    NSMutableParagraphStyle *paragraphStyle     = NSMutableParagraphStyle.new;
-    NSMutableDictionary     *subtitleAttributes = NSMutableDictionary.dictionary;
-    NSMutableDictionary     *titleAttributes    = NSMutableDictionary.dictionary;
-    
+    NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+    NSMutableDictionary *subtitleAttributes = NSMutableDictionary.dictionary;
+    NSMutableDictionary *titleAttributes = NSMutableDictionary.dictionary;
+
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    
+
     // Drawing code
     if (self.navigationBarSubtitle.length) {
-        
-        [titleAttributes setValue:[UIFont boldSystemFontOfSize:17]      forKey:NSFontAttributeName];
-        [titleAttributes setValue:paragraphStyle                        forKey:NSParagraphStyleAttributeName];
-        
-        [subtitleAttributes setValue:[UIFont boldSystemFontOfSize:13]   forKey:NSFontAttributeName];
-        [subtitleAttributes setValue:paragraphStyle                     forKey:NSParagraphStyleAttributeName];
-        
+
+        [titleAttributes setValue:self.navigationBarTitleFont forKey:NSFontAttributeName];
+        [titleAttributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
+
+        [subtitleAttributes setValue:self.navigationBarSubtitleFont forKey:NSFontAttributeName];
+        [subtitleAttributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
+
         CGRect titleRect = rect;
-        titleRect.origin.y = 4;
+        titleRect.origin.y = 0;
         titleRect.size.height = 20;
         [self.navigationBarTitleFontColor setFill];
         [self.navigationBarTitle drawInRect:titleRect withAttributes:titleAttributes];
         CGRect subtitleRect = rect;
-        subtitleRect.origin.y = 24;
-        subtitleRect.size.height = rect.size.height - 24;
+        subtitleRect.origin.y = 20;
+        subtitleRect.size.height = rect.size.height - 20;
         [self.navigationBarSubtitleFontColor setFill];
         [self.navigationBarSubtitle drawInRect:subtitleRect withAttributes:subtitleAttributes];
-    }
-    else {
-        
+    } else {
+
         [titleAttributes setValue:[UIFont boldSystemFontOfSize:20] forKey:NSFontAttributeName];
-        [titleAttributes setValue:paragraphStyle                   forKey:NSParagraphStyleAttributeName];
-        
+        [titleAttributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
+
         CGRect titleRect = rect;
         titleRect.origin.y = (rect.size.height - 24.f) / 2.f;
         titleRect.size.height = 24.f;
