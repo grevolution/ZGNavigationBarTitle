@@ -122,8 +122,8 @@
         [titleAttributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
 
         CGRect titleRect = rect;
-        titleRect.origin.y = 0;//(rect.size.height - 24.f) / 2.f;
-        titleRect.size.height = 20;//24.f;
+        titleRect.origin.y = ((rect.size.height - 24.f) / 2.f) - 3;
+        titleRect.size.height = 24.f;
         [self.navigationBarTitleFontColor setFill];
         [self.navigationBarTitle drawInRect:titleRect withAttributes:titleAttributes];
     }
