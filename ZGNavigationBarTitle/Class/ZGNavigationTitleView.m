@@ -118,7 +118,7 @@
         [self.navigationBarSubtitle drawInRect:subtitleRect withAttributes:subtitleAttributes];
     } else {
 
-        [titleAttributes setValue:[UIFont boldSystemFontOfSize:20] forKey:NSFontAttributeName];
+        [titleAttributes setValue:self.navigationBarTitleFont forKey:NSFontAttributeName];
         [titleAttributes setValue:paragraphStyle forKey:NSParagraphStyleAttributeName];
 
         CGRect titleRect = rect;
