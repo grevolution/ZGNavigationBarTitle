@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "ZGNavigationBarTitle"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "**ZGNavigationBarTitle** is navigationBar Subtitle thing, inspired by the [Reeder for iOS](http://reederapp.com/iphone/)."
   s.homepage     = "https://github.com/grevolution/ZGNavigationBarTitle"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
