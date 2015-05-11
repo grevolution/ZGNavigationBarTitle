@@ -123,7 +123,7 @@
 
         CGRect titleRect = rect;
         titleRect.origin.y = ((rect.size.height - 24.f) / 2.f) - 3;
-        titleRect.size.height = 24.f;
+        titleRect.size.height = 26.f;
         [self.navigationBarTitleFontColor setFill];
         [self.navigationBarTitle drawInRect:titleRect withAttributes:titleAttributes];
     }
